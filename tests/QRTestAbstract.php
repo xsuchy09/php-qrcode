@@ -4,18 +4,19 @@
  *
  * @filesource   QRTestAbstract.php
  * @created      17.11.2017
- * @package      chillerlan\QRCodeTest
+ * @package      xsuchy09\QRCodeTest
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest;
+namespace xsuchy09\QRCodeTest;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass, ReflectionMethod, ReflectionProperty;
 
-abstract class QRTestAbstract extends TestCase{
+abstract class QRTestAbstract extends TestCase
+{
 
 	/**
 	 * @var \ReflectionClass
@@ -27,7 +28,8 @@ abstract class QRTestAbstract extends TestCase{
 	 */
 	protected $FQCN;
 
-	protected function setUp():void{
+	protected function setUp(): void
+	{
 		$this->reflection = new ReflectionClass($this->FQCN);
 	}
 
@@ -36,7 +38,8 @@ abstract class QRTestAbstract extends TestCase{
 	 *
 	 * @return \ReflectionMethod
 	 */
-	protected function getMethod(string $method):ReflectionMethod {
+	protected function getMethod(string $method): ReflectionMethod
+	{
 		$method = $this->reflection->getMethod($method);
 		$method->setAccessible(true);
 
@@ -48,7 +51,8 @@ abstract class QRTestAbstract extends TestCase{
 	 *
 	 * @return \ReflectionProperty
 	 */
-	protected function getProperty(string $property):ReflectionProperty{
+	protected function getProperty(string $property): ReflectionProperty
+	{
 		$property = $this->reflection->getProperty($property);
 		$property->setAccessible(true);
 
@@ -62,7 +66,8 @@ abstract class QRTestAbstract extends TestCase{
 	 *
 	 * @return void
 	 */
-	protected function setProperty($object, string $property, $value){
+	protected function setProperty($object, string $property, $value)
+	{
 		$property = $this->getProperty($property);
 		$property->setAccessible(true);
 		$property->setValue($object, $value);

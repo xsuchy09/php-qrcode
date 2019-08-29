@@ -1,4 +1,5 @@
-# chillerlan/php-qrcode
+# xsuchy09/php-qrcode
+Fork from [chillerlan/php-qrcode](https://github.com/chillerlan/php-qrcode).
 
 A PHP7.2+ QR Code library based on the [implementation](https://github.com/kazuhikoarase/qrcode-generator) by [Kazuhiko Arase](https://github.com/kazuhikoarase),
 namespaced, cleaned up, improved and other stuff.
@@ -6,18 +7,18 @@ namespaced, cleaned up, improved and other stuff.
 [![Packagist version][packagist-badge]][packagist]
 [![License][license-badge]][license]
 [![Travis CI][travis-badge]][travis]
-[![CodeCov][coverage-badge]][coverage]
+<!--[![CodeCov][coverage-badge]][coverage]
 [![Scrunitizer CI][scrutinizer-badge]][scrutinizer]
 [![Packagist downloads][downloads-badge]][downloads]
 [![PayPal donate][donate-badge]][donate]
-
-[packagist-badge]: https://img.shields.io/packagist/v/chillerlan/php-qrcode.svg?style=flat-square
-[packagist]: https://packagist.org/packages/chillerlan/php-qrcode
-[license-badge]: https://img.shields.io/github/license/chillerlan/php-qrcode.svg?style=flat-square
-[license]: https://github.com/chillerlan/php-qrcode/blob/master/LICENSE
-[travis-badge]: https://img.shields.io/travis/chillerlan/php-qrcode.svg?style=flat-square
-[travis]: https://travis-ci.org/chillerlan/php-qrcode
-[coverage-badge]: https://img.shields.io/codecov/c/github/chillerlan/php-qrcode.svg?style=flat-square
+-->
+[packagist-badge]: https://img.shields.io/packagist/v/xsuchy09/php-qrcode.svg?style=flat-square
+[packagist]: https://packagist.org/packages/xsuchy09/php-qrcode
+[license-badge]: https://img.shields.io/github/license/xsuchy09/php-qrcode.svg?style=flat-square
+[license]: https://github.com/xsuchy09/php-qrcode/blob/master/LICENSE
+[travis-badge]: https://img.shields.io/travis/xsuchy09/php-qrcode.svg?style=flat-square
+[travis]: https://travis-ci.org/xsuchy09/php-qrcode
+<!--[coverage-badge]: https://img.shields.io/codecov/c/github/chillerlan/php-qrcode.svg?style=flat-square
 [coverage]: https://codecov.io/github/chillerlan/php-qrcode
 [scrutinizer-badge]: https://img.shields.io/scrutinizer/g/chillerlan/php-qrcode.svg?style=flat-square
 [scrutinizer]: https://scrutinizer-ci.com/g/chillerlan/php-qrcode
@@ -25,12 +26,7 @@ namespaced, cleaned up, improved and other stuff.
 [downloads]: https://packagist.org/packages/chillerlan/php-qrcode/stats
 [donate-badge]: https://img.shields.io/badge/donate-paypal-ff33aa.svg?style=flat-square
 [donate]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WLYUNAT9ZTJZ4
-
-Hi, please check out my other projects that are way cooler than qrcodes!
-
-- [php-oauth-core](https://github.com/chillerlan/php-oauth-core) - an OAuth 1/2 client library along with a bunch of [providers](https://github.com/chillerlan/php-oauth-providers)
-- [php-httpinterface](https://github.com/chillerlan/php-httpinterface) - a PSR-7/15/17/18 implemetation
-- [php-database](https://github.com/chillerlan/php-database) - a database client & querybuilder for MySQL, Postgres, SQLite, MSSQL, Firebird
+-->
 
 ## Documentation
 
@@ -42,32 +38,30 @@ Hi, please check out my other projects that are way cooler than qrcodes!
 ### Installation
 **requires [composer](https://getcomposer.org)**
 
-*composer.json* (note: replace `dev-master` with a [version boundary](https://getcomposer.org/doc/articles/versions.md))
+Just run:
+
+```bash
+composer require xsuchy09/php-qrcode
+```
+
+Or edit your *composer.json* (note: replace `dev-master` with a [version boundary](https://getcomposer.org/doc/articles/versions.md))
 ```json
 {
 	"require": {
 		"php": "^7.2",
-		"chillerlan/php-qrcode": "dev-master"
+		"xsuchy09/php-qrcode": "dev-master"
 	}
 }
 ```
 
 #### Manual installation
-Download the desired version of the package from [master](https://github.com/chillerlan/php-qrcode/archive/master.zip) or
-[release](https://github.com/chillerlan/php-qrcode/releases) and extract the contents to your project folder.  After that:
+Download the desired version of the package from [master](https://github.com/xsuchy09/php-qrcode/archive/master.zip) or
+[release](https://github.com/xsuchy09/php-qrcode/releases) and extract the contents to your project folder.  After that:
 - run `composer install` to install the required dependencies and generate `/vendor/autoload.php`.
-- if you use a custom autoloader, point the namespace `chillerlan\QRCode` to the folder `src` of the package
+- if you use a custom autoloader, point the namespace `xsuchy09\QRCode` to the folder `src` of the package
 
 Profit!
 
-#### Framework Integration
-- Drupal [Google Authenticator Login `ga_login`](https://www.drupal.org/project/ga_login)
-- WordPress [`wp-two-factor-auth`](https://github.com/sjinks/wp-two-factor-auth)
-- WordPress [Simple 2FA `simple-2fa`](https://wordpress.org/plugins/simple-2fa/)
-- WoltLab Suite [two-step-verification](http://pluginstore.woltlab.com/file/3007-two-step-verification/)  
-- [Cachet](https://github.com/CachetHQ/Cachet)
-- [slack-qrcode](https://github.com/sameyasu/slack-qrcode)
-- [gaara 嘎啦](https://github.com/xutengx/gaara)
 
 ### Usage
 We want to encode this URI for a mobile authenticator into a QRcode image:
@@ -79,8 +73,8 @@ echo '<img src="'.(new QRCode)->render($data).'" alt="QR Code" />';
 ```
 
 <p align="center">
-	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_image.png">
-	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_svg.png">
+	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/xsuchy09/php-qrcode/master/examples/example_image.png">
+	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/xsuchy09/php-qrcode/master/examples/example_svg.png">
 </p>
 
 Wait, what was that? Please again, slower!
@@ -130,7 +124,7 @@ foreach($matrix->matrix() as $y => $row){
 }
 ```
 
-Have a look [in this folder](https://github.com/chillerlan/php-qrcode/tree/master/examples) for some more usage examples.
+Have a look [in this folder](https://github.com/xsuchy09/php-qrcode/tree/master/examples) for some more usage examples.
 
 #### Custom module values
 Previous versions of `QRCode` held only boolean matrix values that only allowed to determine whether a module was dark or not. Now you can distinguish between different parts of the matrix, namely the several required patterns from the QR Code specification, and use them in different ways.

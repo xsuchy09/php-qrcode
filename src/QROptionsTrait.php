@@ -4,17 +4,18 @@
  *
  * @filesource   QROptionsTrait.php
  * @created      10.03.2018
- * @package      chillerlan\QRCode
+ * @package      xsuchy09\QRCode
  * @author       smiley <smiley@chillerlan.net>
  * @copyright    2018 smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCode;
+namespace xsuchy09\QRCode;
 
 use function array_values, count, is_array, is_numeric, max, min, sprintf;
 
-trait QROptionsTrait{
+trait QROptionsTrait
+{
 
 	/**
 	 * QR Code version number
@@ -249,7 +250,8 @@ trait QROptionsTrait{
 	 *
 	 * @return void
 	 */
-	protected function setMinMaxVersion(int $versionMin, int $versionMax):void{
+	protected function setMinMaxVersion(int $versionMin, int $versionMax): void
+	{
 		$min = max(1, min(40, $versionMin));
 		$max = max(1, min(40, $versionMax));
 
@@ -262,7 +264,8 @@ trait QROptionsTrait{
 	 *
 	 * @return void
 	 */
-	protected function set_versionMin(int $version):void{
+	protected function set_versionMin(int $version): void
+	{
 		$this->setMinMaxVersion($version, $this->versionMax);
 	}
 
@@ -271,7 +274,8 @@ trait QROptionsTrait{
 	 *
 	 * @return void
 	 */
-	protected function set_versionMax(int $version):void{
+	protected function set_versionMax(int $version): void
+	{
 		$this->setMinMaxVersion($this->versionMin, $version);
 	}
 
@@ -279,11 +283,12 @@ trait QROptionsTrait{
 	 * @param int $eccLevel
 	 *
 	 * @return void
-	 * @throws \chillerlan\QRCode\QRCodeException
+	 * @throws \xsuchy09\QRCode\QRCodeException
 	 */
-	protected function set_eccLevel(int $eccLevel):void{
+	protected function set_eccLevel(int $eccLevel): void
+	{
 
-		if(!isset(QRCode::ECC_MODES[$eccLevel])){
+		if (!isset(QRCode::ECC_MODES[$eccLevel])) {
 			throw new QRCodeException(sprintf('Invalid error correct level: %s', $eccLevel));
 		}
 
@@ -295,9 +300,10 @@ trait QROptionsTrait{
 	 *
 	 * @return void
 	 */
-	protected function set_maskPattern(int $maskPattern):void{
+	protected function set_maskPattern(int $maskPattern): void
+	{
 
-		if($maskPattern !== QRCode::MASK_PATTERN_AUTO){
+		if ($maskPattern !== QRCode::MASK_PATTERN_AUTO) {
 			$this->maskPattern = max(0, min(7, $maskPattern));
 		}
 
@@ -307,20 +313,21 @@ trait QROptionsTrait{
 	 * @param mixed $imageTransparencyBG
 	 *
 	 * @return void
-	 * @throws \chillerlan\QRCode\QRCodeException
+	 * @throws \xsuchy09\QRCode\QRCodeException
 	 */
-	protected function set_imageTransparencyBG($imageTransparencyBG):void{
+	protected function set_imageTransparencyBG($imageTransparencyBG): void
+	{
 
 		// invalid value - set to white as default
-		if(!is_array($imageTransparencyBG) || count($imageTransparencyBG) < 3){
+		if (!is_array($imageTransparencyBG) || count($imageTransparencyBG) < 3) {
 			$this->imageTransparencyBG = [255, 255, 255];
 
 			return;
 		}
 
-		foreach($imageTransparencyBG as $k => $v){
+		foreach ($imageTransparencyBG as $k => $v) {
 
-			if(!is_numeric($v)){
+			if (!is_numeric($v)) {
 				throw new QRCodeException('Invalid RGB value.');
 			}
 
@@ -337,9 +344,10 @@ trait QROptionsTrait{
 	 *
 	 * @return void
 	 */
-	protected function set_version(int $version):void{
+	protected function set_version(int $version): void
+	{
 
-		if($version !== QRCode::VERSION_AUTO){
+		if ($version !== QRCode::VERSION_AUTO) {
 			$this->version = max(1, min(40, $version));
 		}
 

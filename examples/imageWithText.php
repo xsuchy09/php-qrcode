@@ -1,7 +1,7 @@
 <?php
 /**
  * example for additional text
- * @link https://github.com/chillerlan/php-qrcode/issues/35
+ * @link         https://github.com/chillerlan/php-qrcode/issues/35
  *
  * @filesource   imageWithText.php
  * @created      22.06.2019
@@ -10,19 +10,19 @@
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeExamples;
+namespace xsuchy09\QRCodeExamples;
 
-use chillerlan\QRCode\{QRCode, QROptions};
+use xsuchy09\QRCode\{QRCode, QROptions};
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $data = 'https://www.youtube.com/watch?v=DLzxrzFCyOs&t=43s';
 
 $options = new QROptions([
-	'version'      => 7,
-	'outputType'   => QRCode::OUTPUT_IMAGE_PNG,
-	'scale'        => 3,
-	'imageBase64'  => false,
+	'version' => 7,
+	'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+	'scale' => 3,
+	'imageBase64' => false,
 ]);
 
 header('Content-type: image/png');

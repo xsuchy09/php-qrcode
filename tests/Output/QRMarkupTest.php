@@ -4,34 +4,38 @@
  *
  * @filesource   QRMarkupTest.php
  * @created      24.12.2017
- * @package      chillerlan\QRCodeTest\Output
+ * @package      xsuchy09\QRCodeTest\Output
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Output;
+namespace xsuchy09\QRCodeTest\Output;
 
-use chillerlan\QRCode\{QRCode, Output\QRMarkup};
+use xsuchy09\QRCode\{QRCode, Output\QRMarkup};
 
-class QRMarkupTest extends QROutputTestAbstract{
+class QRMarkupTest extends QROutputTestAbstract
+{
 
 	protected $FQCN = QRMarkup::class;
 
-	public function types(){
+	public function types()
+	{
 		return [
 			'html' => [QRCode::OUTPUT_MARKUP_HTML],
-			'svg'  => [QRCode::OUTPUT_MARKUP_SVG],
+			'svg' => [QRCode::OUTPUT_MARKUP_SVG],
 		];
 	}
 
 	/**
 	 * @dataProvider types
+	 *
 	 * @param $type
 	 */
-	public function testMarkupOutputFile($type){
+	public function testMarkupOutputFile($type)
+	{
 		$this->options->outputType = $type;
-		$this->options->cachefile  = $this::cachefile.$type;
+		$this->options->cachefile = $this::cachefile . $type;
 		$this->setOutputInterface();
 		$data = $this->outputInterface->dump();
 
@@ -40,17 +44,19 @@ class QRMarkupTest extends QROutputTestAbstract{
 
 	/**
 	 * @dataProvider types
+	 *
 	 * @param $type
 	 */
-	public function testMarkupOutput($type){
+	public function testMarkupOutput($type)
+	{
 		$this->options->outputType = $type;
 		$this->setOutputInterface();
 
-		$expected = explode($this->options->eol, file_get_contents($this::cachefile.$type));
+		$expected = explode($this->options->eol, file_get_contents($this::cachefile . $type));
 		// cut off the doctype & head
 		array_shift($expected);
 
-		if($type === QRCode::OUTPUT_MARKUP_HTML){
+		if ($type === QRCode::OUTPUT_MARKUP_HTML) {
 			// cut off the </body> tag
 			array_pop($expected);
 		}
@@ -60,12 +66,13 @@ class QRMarkupTest extends QROutputTestAbstract{
 		$this->assertSame(trim($expected), trim($this->outputInterface->dump()));
 	}
 
-	public function testSetModuleValues(){
+	public function testSetModuleValues()
+	{
 
 		$this->options->moduleValues = [
 			// data
 			1024 => '#4A6000',
-			4    => '#ECF9BE',
+			4 => '#ECF9BE',
 		];
 
 		$this->setOutputInterface();

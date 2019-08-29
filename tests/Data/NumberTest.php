@@ -4,20 +4,21 @@
  *
  * @filesource   NumberTest.php
  * @created      24.11.2017
- * @package      chillerlan\QRCodeTest\Data
+ * @package      xsuchy09\QRCodeTest\Data
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Data;
+namespace xsuchy09\QRCodeTest\Data;
 
-use chillerlan\QRCode\Data\{Number, QRCodeDataException};
+use xsuchy09\QRCode\Data\{Number, QRCodeDataException};
 
-class NumberTest extends DatainterfaceTestAbstract{
+class NumberTest extends DatainterfaceTestAbstract
+{
 
 	protected $FQCN = Number::class;
-	protected $testdata  = '0123456789';
+	protected $testdata = '0123456789';
 	protected $expected = [
 		16, 40, 12, 86, 106, 105, 0, 236,
 		17, 236, 17, 236, 17, 236, 17, 236,
@@ -34,7 +35,8 @@ class NumberTest extends DatainterfaceTestAbstract{
 		89, 63, 168, 151
 	];
 
-	public function testGetCharCodeException(){
+	public function testGetCharCodeException()
+	{
 		$this->expectException(QRCodeDataException::class);
 		$this->expectExceptionMessage('illegal char: "#" [35]');
 

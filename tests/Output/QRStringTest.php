@@ -4,21 +4,23 @@
  *
  * @filesource   QRStringTest.php
  * @created      24.12.2017
- * @package      chillerlan\QRCodeTest\Output
+ * @package      xsuchy09\QRCodeTest\Output
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Output;
+namespace xsuchy09\QRCodeTest\Output;
 
-use chillerlan\QRCode\{QRCode, Output\QRString};
+use xsuchy09\QRCode\{QRCode, Output\QRString};
 
-class QRStringTest extends QROutputTestAbstract{
+class QRStringTest extends QROutputTestAbstract
+{
 
 	protected $FQCN = QRString::class;
 
-	public function types(){
+	public function types()
+	{
 		return [
 			'json' => [QRCode::OUTPUT_STRING_JSON],
 			'text' => [QRCode::OUTPUT_STRING_TEXT],
@@ -27,23 +29,26 @@ class QRStringTest extends QROutputTestAbstract{
 
 	/**
 	 * @dataProvider types
+	 *
 	 * @param $type
 	 */
-	public function testStringOutput($type){
+	public function testStringOutput($type)
+	{
 		$this->options->outputType = $type;
-		$this->options->cachefile  = $this::cachefile.$type;
+		$this->options->cachefile = $this::cachefile . $type;
 		$this->setOutputInterface();
 		$data = $this->outputInterface->dump();
 
 		$this->assertSame($data, file_get_contents($this->options->cachefile));
 	}
 
-	public function testSetModuleValues(){
+	public function testSetModuleValues()
+	{
 
 		$this->options->moduleValues = [
 			// data
 			1024 => 'A',
-			4    => 'B',
+			4 => 'B',
 		];
 
 		$this->setOutputInterface();

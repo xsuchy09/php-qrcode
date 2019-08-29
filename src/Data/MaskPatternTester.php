@@ -4,13 +4,13 @@
  *
  * @filesource   MaskPatternTester.php
  * @created      22.11.2017
- * @package      chillerlan\QRCode\Data
+ * @package      xsuchy09\QRCode\Data
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCode\Data;
+namespace xsuchy09\QRCode\Data;
 
 use function abs, call_user_func;
 
@@ -19,10 +19,11 @@ use function abs, call_user_func;
  *
  * @link http://www.thonky.com/qr-code-tutorial/data-masking
  */
-class MaskPatternTester{
+class MaskPatternTester
+{
 
 	/**
-	 * @var \chillerlan\QRCode\Data\QRMatrix
+	 * @var \xsuchy09\QRCode\Data\QRMatrix
 	 */
 	protected $matrix;
 
@@ -34,31 +35,34 @@ class MaskPatternTester{
 	/**
 	 * Receives the matrix an sets the module count
 	 *
-	 * @see \chillerlan\QRCode\QROptions::$maskPattern
-	 * @see \chillerlan\QRCode\Data\QRMatrix::$maskPattern
-	 * @see \chillerlan\QRCode\QRCode::getBestMaskPattern()
+	 * @param \xsuchy09\QRCode\Data\QRMatrix $matrix
 	 *
-	 * @param \chillerlan\QRCode\Data\QRMatrix $matrix
+	 * @see  \xsuchy09\QRCode\Data\QRMatrix::$maskPattern
+	 * @see  \xsuchy09\QRCode\QRCode::getBestMaskPattern()
+	 *
+	 * @see  \xsuchy09\QRCode\QROptions::$maskPattern
 	 */
-	public function __construct(QRMatrix $matrix){
-		$this->matrix      = $matrix;
+	public function __construct(QRMatrix $matrix)
+	{
+		$this->matrix = $matrix;
 		$this->moduleCount = $this->matrix->size();
 	}
 
 	/**
 	 * Returns the penalty for the given mask pattern
 	 *
-	 * @see \chillerlan\QRCode\QROptions::$maskPattern
-	 * @see \chillerlan\QRCode\Data\QRMatrix::$maskPattern
-	 * @see \chillerlan\QRCode\QRCode::getBestMaskPattern()
-	 *
 	 * @return int
+	 * @see \xsuchy09\QRCode\Data\QRMatrix::$maskPattern
+	 * @see \xsuchy09\QRCode\QRCode::getBestMaskPattern()
+	 *
+	 * @see \xsuchy09\QRCode\QROptions::$maskPattern
 	 */
-	public function testPattern():int{
-		$penalty  = 0;
+	public function testPattern(): int
+	{
+		$penalty = 0;
 
-		for($level = 1; $level <= 4; $level++){
-			$penalty += call_user_func([$this, 'testLevel'.$level]);
+		for ($level = 1; $level <= 4; $level++) {
+			$penalty += call_user_func([$this, 'testLevel' . $level]);
 		}
 
 		return (int)$penalty;
@@ -69,33 +73,34 @@ class MaskPatternTester{
 	 *
 	 * @return float
 	 */
-	protected function testLevel1():float{
+	protected function testLevel1(): float
+	{
 		$penalty = 0;
 
-		foreach($this->matrix->matrix() as $y => $row){
-			foreach($row as $x => $val){
+		foreach ($this->matrix->matrix() as $y => $row) {
+			foreach ($row as $x => $val) {
 				$count = 0;
 
-				for($ry = -1; $ry <= 1; $ry++){
+				for ($ry = -1; $ry <= 1; $ry++) {
 
-					if($y + $ry < 0 || $this->moduleCount <= $y + $ry){
+					if ($y + $ry < 0 || $this->moduleCount <= $y + $ry) {
 						continue;
 					}
 
-					for($rx = -1; $rx <= 1; $rx++){
+					for ($rx = -1; $rx <= 1; $rx++) {
 
-						if(($ry === 0 && $rx === 0) || ($x + $rx < 0 || $this->moduleCount <= $x + $rx)){
+						if (($ry === 0 && $rx === 0) || ($x + $rx < 0 || $this->moduleCount <= $x + $rx)) {
 							continue;
 						}
 
-						if($this->matrix->check($x + $rx, $y + $ry) === ($val >> 8 > 0)){
+						if ($this->matrix->check($x + $rx, $y + $ry) === ($val >> 8 > 0)) {
 							$count++;
 						}
 
 					}
 				}
 
-				if($count > 5){
+				if ($count > 5) {
 					$penalty += (3 + $count - 5);
 				}
 
@@ -110,40 +115,41 @@ class MaskPatternTester{
 	 *
 	 * @return float
 	 */
-	protected function testLevel2():float{
+	protected function testLevel2(): float
+	{
 		$penalty = 0;
 
-		foreach($this->matrix->matrix() as $y => $row){
+		foreach ($this->matrix->matrix() as $y => $row) {
 
-			if($y > $this->moduleCount - 2){
+			if ($y > $this->moduleCount - 2) {
 				break;
 			}
 
-			foreach($row as $x => $val){
+			foreach ($row as $x => $val) {
 
-				if($x > $this->moduleCount - 2){
+				if ($x > $this->moduleCount - 2) {
 					break;
 				}
 
 				$count = 0;
 
-				if($val >> 8 > 0){
+				if ($val >> 8 > 0) {
 					$count++;
 				}
 
-				if($this->matrix->check($y, $x + 1)){
+				if ($this->matrix->check($y, $x + 1)) {
 					$count++;
 				}
 
-				if($this->matrix->check($y + 1, $x)){
+				if ($this->matrix->check($y + 1, $x)) {
 					$count++;
 				}
 
-				if($this->matrix->check($y + 1, $x + 1)){
+				if ($this->matrix->check($y + 1, $x + 1)) {
 					$count++;
 				}
 
-				if($count === 0 || $count === 4){
+				if ($count === 0 || $count === 4) {
 					$penalty += 3;
 				}
 
@@ -158,36 +164,37 @@ class MaskPatternTester{
 	 *
 	 * @return float
 	 */
-	protected function testLevel3():float{
+	protected function testLevel3(): float
+	{
 		$penalty = 0;
 
-		foreach($this->matrix->matrix() as $y => $row){
-			foreach($row as $x => $val){
+		foreach ($this->matrix->matrix() as $y => $row) {
+			foreach ($row as $x => $val) {
 
-				if($x <= $this->moduleCount - 7){
-					if(
-						    $this->matrix->check($x    , $y)
+				if ($x <= $this->moduleCount - 7) {
+					if (
+						$this->matrix->check($x, $y)
 						&& !$this->matrix->check($x + 1, $y)
-						&&  $this->matrix->check($x + 2, $y)
-						&&  $this->matrix->check($x + 3, $y)
-						&&  $this->matrix->check($x + 4, $y)
+						&& $this->matrix->check($x + 2, $y)
+						&& $this->matrix->check($x + 3, $y)
+						&& $this->matrix->check($x + 4, $y)
 						&& !$this->matrix->check($x + 5, $y)
-						&&  $this->matrix->check($x + 6, $y)
-					){
+						&& $this->matrix->check($x + 6, $y)
+					) {
 						$penalty += 40;
 					}
 				}
 
-				if($y <= $this->moduleCount - 7){
-					if(
-						    $this->matrix->check($x, $y)
+				if ($y <= $this->moduleCount - 7) {
+					if (
+						$this->matrix->check($x, $y)
 						&& !$this->matrix->check($x, $y + 1)
-						&&  $this->matrix->check($x, $y + 2)
-						&&  $this->matrix->check($x, $y + 3)
-						&&  $this->matrix->check($x, $y + 4)
+						&& $this->matrix->check($x, $y + 2)
+						&& $this->matrix->check($x, $y + 3)
+						&& $this->matrix->check($x, $y + 4)
 						&& !$this->matrix->check($x, $y + 5)
-						&&  $this->matrix->check($x, $y + 6)
-					){
+						&& $this->matrix->check($x, $y + 6)
+					) {
 						$penalty += 40;
 					}
 				}
@@ -203,12 +210,13 @@ class MaskPatternTester{
 	 *
 	 * @return float
 	 */
-	protected function testLevel4():float{
+	protected function testLevel4(): float
+	{
 		$count = 0;
 
-		foreach($this->matrix->matrix() as $y => $row){
-			foreach($row as $x => $val){
-				if($val >> 8 > 0){
+		foreach ($this->matrix->matrix() as $y => $row) {
+			foreach ($row as $x => $val) {
+				if ($val >> 8 > 0) {
 					$count++;
 				}
 			}

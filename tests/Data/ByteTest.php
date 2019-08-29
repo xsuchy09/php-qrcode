@@ -4,17 +4,18 @@
  *
  * @filesource   ByteTest.php
  * @created      24.11.2017
- * @package      chillerlan\QRCodeTest\Data
+ * @package      xsuchy09\QRCodeTest\Data
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Data;
+namespace xsuchy09\QRCodeTest\Data;
 
-use chillerlan\QRCode\Data\Byte;
+use xsuchy09\QRCode\Data\Byte;
 
-class ByteTest extends DatainterfaceTestAbstract{
+class ByteTest extends DatainterfaceTestAbstract
+{
 
 	protected $FQCN = Byte::class;
 	protected $testdata = '[¯\_(ツ)_/¯]';

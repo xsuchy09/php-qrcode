@@ -8,9 +8,9 @@
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeExamples;
+namespace xsuchy09\QRCodeExamples;
 
-use chillerlan\QRCode\{QRCode, QROptions};
+use xsuchy09\QRCode\{QRCode, QROptions};
 
 require_once '../vendor/autoload.php';
 
@@ -24,12 +24,12 @@ header('Content-Type: text/html; charset=utf-8');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>QRCode test</title>
 	<style>
-		body{
+		body {
 			margin: 5em;
 			padding: 0;
 		}
 
-		div.qrcode{
+		div.qrcode {
 			margin: 0;
 			padding: 0;
 		}
@@ -54,7 +54,7 @@ header('Content-Type: text/html; charset=utf-8');
 	</style>
 </head>
 <body>
-	<div class="qrcode">
+<div class="qrcode">
 <?php
 
 	$data = 'https://www.youtube.com/watch?v=DLzxrzFCyOs&t=43s';

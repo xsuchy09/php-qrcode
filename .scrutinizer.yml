@@ -1,5 +1,5 @@
 filter:
-  excluded_paths:
-    - examples/*
-    - tests/*
-    - vendor/*
+    excluded_paths:
+        - examples/*
+        - tests/*
+        - vendor/*

@@ -4,18 +4,18 @@
  *
  * @filesource   QRCode.php
  * @created      26.11.2015
- * @package      chillerlan\QRCode
+ * @package      xsuchy09\QRCode
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2015 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCode;
+namespace xsuchy09\QRCode;
 
-use chillerlan\QRCode\Data\{
+use xsuchy09\QRCode\Data\{
 	MaskPatternTester, QRCodeDataException, QRDataInterface, QRMatrix
 };
-use chillerlan\QRCode\Output\{
+use xsuchy09\QRCode\Output\{
 	QRCodeOutputException, QRImage, QRImagick, QRMarkup, QROutputInterface, QRString
 };
 use chillerlan\Settings\SettingsContainerInterface;
@@ -29,33 +29,34 @@ use function array_search, call_user_func_array, class_exists, in_array, mb_inte
  * @link http://www.qrcode.com/en/codes/model12.html
  * @link http://www.thonky.com/qr-code-tutorial/
  */
-class QRCode{
+class QRCode
+{
 
 	/**
 	 * API constants
 	 */
 	public const OUTPUT_MARKUP_HTML = 'html';
-	public const OUTPUT_MARKUP_SVG  = 'svg';
-	public const OUTPUT_IMAGE_PNG   = 'png';
-	public const OUTPUT_IMAGE_JPG   = 'jpg';
-	public const OUTPUT_IMAGE_GIF   = 'gif';
+	public const OUTPUT_MARKUP_SVG = 'svg';
+	public const OUTPUT_IMAGE_PNG = 'png';
+	public const OUTPUT_IMAGE_JPG = 'jpg';
+	public const OUTPUT_IMAGE_GIF = 'gif';
 	public const OUTPUT_STRING_JSON = 'json';
 	public const OUTPUT_STRING_TEXT = 'text';
-	public const OUTPUT_IMAGICK     = 'imagick';
-	public const OUTPUT_CUSTOM      = 'custom';
+	public const OUTPUT_IMAGICK = 'imagick';
+	public const OUTPUT_CUSTOM = 'custom';
 
-	public const VERSION_AUTO       = -1;
-	public const MASK_PATTERN_AUTO  = -1;
+	public const VERSION_AUTO = -1;
+	public const MASK_PATTERN_AUTO = -1;
 
-	public const ECC_L         = 0b01; // 7%.
-	public const ECC_M         = 0b00; // 15%.
-	public const ECC_Q         = 0b11; // 25%.
-	public const ECC_H         = 0b10; // 30%.
+	public const ECC_L = 0b01; // 7%.
+	public const ECC_M = 0b00; // 15%.
+	public const ECC_Q = 0b11; // 25%.
+	public const ECC_H = 0b10; // 30%.
 
-	public const DATA_NUMBER   = 0b0001;
+	public const DATA_NUMBER = 0b0001;
 	public const DATA_ALPHANUM = 0b0010;
-	public const DATA_BYTE     = 0b0100;
-	public const DATA_KANJI    = 0b1000;
+	public const DATA_BYTE = 0b0100;
+	public const DATA_KANJI = 0b1000;
 
 	public const ECC_MODES = [
 		self::ECC_L => 0,
@@ -65,10 +66,10 @@ class QRCode{
 	];
 
 	public const DATA_MODES = [
-		self::DATA_NUMBER   => 0,
+		self::DATA_NUMBER => 0,
 		self::DATA_ALPHANUM => 1,
-		self::DATA_BYTE     => 2,
-		self::DATA_KANJI    => 3,
+		self::DATA_BYTE => 2,
+		self::DATA_KANJI => 3,
 	];
 
 	public const OUTPUT_MODES = [
@@ -91,12 +92,12 @@ class QRCode{
 	];
 
 	/**
-	 * @var \chillerlan\QRCode\QROptions
+	 * @var QROptions
 	 */
 	protected $options;
 
 	/**
-	 * @var \chillerlan\QRCode\Data\QRDataInterface
+	 * @var QRDataInterface
 	 */
 	protected $dataInterface;
 
@@ -109,9 +110,10 @@ class QRCode{
 	/**
 	 * QRCode constructor.
 	 *
-	 * @param \chillerlan\Settings\SettingsContainerInterface|null $options
+	 * @param SettingsContainerInterface|null $options
 	 */
-	public function __construct(SettingsContainerInterface $options = null){
+	public function __construct(SettingsContainerInterface $options = null)
+	{
 		// save the current mb encoding (in case it differs from UTF-8)
 		$this->mbCurrentEncoding = mb_internal_encoding();
 		// use UTF-8 from here on
@@ -123,7 +125,8 @@ class QRCode{
 	/**
 	 * @return void
 	 */
-	public function __destruct(){
+	public function __destruct()
+	{
 		// restore the previous mb_internal_encoding, so that we don't mess up the rest of the script
 		mb_internal_encoding($this->mbCurrentEncoding);
 	}
@@ -135,8 +138,11 @@ class QRCode{
 	 * @param string|null $file
 	 *
 	 * @return mixed
+	 * @throws QRCodeDataException
+	 * @throws QRCodeOutputException
 	 */
-	public function render(string $data, string $file = null){
+	public function render(string $data, string $file = null)
+	{
 		return $this->initOutputInterface($data)->dump($file);
 	}
 
@@ -145,12 +151,13 @@ class QRCode{
 	 *
 	 * @param string $data
 	 *
-	 * @return \chillerlan\QRCode\Data\QRMatrix
-	 * @throws \chillerlan\QRCode\Data\QRCodeDataException
+	 * @return QRMatrix
+	 * @throws QRCodeDataException
 	 */
-	public function getMatrix(string $data):QRMatrix{
+	public function getMatrix(string $data): QRMatrix
+	{
 
-		if(empty($data)){
+		if (empty($data)) {
 			throw new QRCodeDataException('QRCode::getMatrix() No data given.');
 		}
 
@@ -162,7 +169,7 @@ class QRCode{
 
 		$matrix = $this->dataInterface->initMatrix($maskPattern);
 
-		if((bool)$this->options->addQuietzone){
+		if ((bool)$this->options->addQuietzone) {
 			$matrix->setQuietZone($this->options->quietzoneSize);
 		}
 
@@ -172,14 +179,15 @@ class QRCode{
 	/**
 	 * shoves a QRMatrix through the MaskPatternTester to find the lowest penalty mask pattern
 	 *
-	 * @see \chillerlan\QRCode\Data\MaskPatternTester
-	 *
 	 * @return int
+	 * @see \xsuchy09\QRCode\Data\MaskPatternTester
+	 *
 	 */
-	protected function getBestMaskPattern():int{
+	protected function getBestMaskPattern(): int
+	{
 		$penalties = [];
 
-		for($pattern = 0; $pattern < 8; $pattern++){
+		for ($pattern = 0; $pattern < 8; $pattern++) {
 			$tester = new MaskPatternTester($this->dataInterface->initMatrix($pattern, true));
 
 			$penalties[$pattern] = $tester->testPattern();
@@ -191,17 +199,18 @@ class QRCode{
 	/**
 	 * returns a fresh QRDataInterface for the given $data
 	 *
-	 * @param string                       $data
+	 * @param string $data
 	 *
-	 * @return \chillerlan\QRCode\Data\QRDataInterface
-	 * @throws \chillerlan\QRCode\Data\QRCodeDataException
+	 * @return QRDataInterface
+	 * @throws QRCodeDataException
 	 */
-	public function initDataInterface(string $data):QRDataInterface{
+	public function initDataInterface(string $data): QRDataInterface
+	{
 
-		foreach(['Number', 'AlphaNum', 'Kanji', 'Byte'] as $mode){
-			$dataInterface = __NAMESPACE__.'\\Data\\'.$mode;
+		foreach (['Number', 'AlphaNum', 'Kanji', 'Byte'] as $mode) {
+			$dataInterface = __NAMESPACE__ . '\\Data\\' . $mode;
 
-			if(call_user_func_array([$this, 'is'.$mode], [$data]) && class_exists($dataInterface)){
+			if (call_user_func_array([$this, 'is' . $mode], [$data]) && class_exists($dataInterface)) {
 				return new $dataInterface($this->options, $data);
 			}
 
@@ -215,18 +224,20 @@ class QRCode{
 	 *
 	 * @param string $data
 	 *
-	 * @return \chillerlan\QRCode\Output\QROutputInterface
-	 * @throws \chillerlan\QRCode\Output\QRCodeOutputException
+	 * @return QROutputInterface
+	 * @throws QRCodeDataException
+	 * @throws QRCodeOutputException
 	 */
-	protected function initOutputInterface(string $data):QROutputInterface{
+	protected function initOutputInterface(string $data): QROutputInterface
+	{
 
-		if($this->options->outputType === $this::OUTPUT_CUSTOM && class_exists($this->options->outputInterface)){
+		if ($this->options->outputType === $this::OUTPUT_CUSTOM && class_exists($this->options->outputInterface)) {
 			return new $this->options->outputInterface($this->options, $this->getMatrix($data));
 		}
 
-		foreach($this::OUTPUT_MODES as $outputInterface => $modes){
+		foreach ($this::OUTPUT_MODES as $outputInterface => $modes) {
 
-			if(in_array($this->options->outputType, $modes, true) && class_exists($outputInterface)){
+			if (in_array($this->options->outputType, $modes, true) && class_exists($outputInterface)) {
 				return new $outputInterface($this->options, $this->getMatrix($data));
 			}
 
@@ -242,7 +253,8 @@ class QRCode{
 	 *
 	 * @return bool
 	 */
-	public function isNumber(string $string):bool{
+	public function isNumber(string $string): bool
+	{
 		return $this->checkString($string, QRDataInterface::NUMBER_CHAR_MAP);
 	}
 
@@ -253,7 +265,8 @@ class QRCode{
 	 *
 	 * @return bool
 	 */
-	public function isAlphaNum(string $string):bool{
+	public function isAlphaNum(string $string): bool
+	{
 		return $this->checkString($string, QRDataInterface::ALPHANUM_CHAR_MAP);
 	}
 
@@ -265,11 +278,12 @@ class QRCode{
 	 *
 	 * @return bool
 	 */
-	protected function checkString(string $string, array $charmap):bool{
+	protected function checkString(string $string, array $charmap): bool
+	{
 		$len = strlen($string);
 
-		for($i = 0; $i < $len; $i++){
-			if(!in_array($string[$i], $charmap, true)){
+		for ($i = 0; $i < $len; $i++) {
+			if (!in_array($string[$i], $charmap, true)) {
 				return false;
 			}
 		}
@@ -284,14 +298,15 @@ class QRCode{
 	 *
 	 * @return bool
 	 */
-	public function isKanji(string $string):bool{
-		$i   = 0;
+	public function isKanji(string $string): bool
+	{
+		$i = 0;
 		$len = strlen($string);
 
-		while($i + 1 < $len){
+		while ($i + 1 < $len) {
 			$c = ((0xff & ord($string[$i])) << 8) | (0xff & ord($string[$i + 1]));
 
-			if(!($c >= 0x8140 && $c <= 0x9FFC) && !($c >= 0xE040 && $c <= 0xEBBF)){
+			if (!($c >= 0x8140 && $c <= 0x9FFC) && !($c >= 0xE040 && $c <= 0xEBBF)) {
 				return false;
 			}
 
@@ -308,7 +323,8 @@ class QRCode{
 	 *
 	 * @return bool
 	 */
-	protected function isByte(string $data):bool{
+	protected function isByte(string $data): bool
+	{
 		return !empty($data);
 	}
 

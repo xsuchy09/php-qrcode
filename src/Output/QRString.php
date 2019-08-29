@@ -4,22 +4,23 @@
  *
  * @filesource   QRString.php
  * @created      05.12.2015
- * @package      chillerlan\QRCode\Output
+ * @package      xsuchy09\QRCode\Output
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2015 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCode\Output;
+namespace xsuchy09\QRCode\Output;
 
-use chillerlan\QRCode\QRCode;
+use xsuchy09\QRCode\QRCode;
 
 use function implode, is_string, json_encode;
 
 /**
  * Converts the matrix data into string types
  */
-class QRString extends QROutputAbstract{
+class QRString extends QROutputAbstract
+{
 
 	/**
 	 * @var string
@@ -29,17 +30,17 @@ class QRString extends QROutputAbstract{
 	/**
 	 * @return void
 	 */
-	protected function setModuleValues():void{
+	protected function setModuleValues(): void
+	{
 
-		foreach($this::DEFAULT_MODULE_VALUES as $M_TYPE => $defaultValue){
+		foreach ($this::DEFAULT_MODULE_VALUES as $M_TYPE => $defaultValue) {
 			$v = $this->options->moduleValues[$M_TYPE] ?? null;
 
-			if(!is_string($v)){
+			if (!is_string($v)) {
 				$this->moduleValues[$M_TYPE] = $defaultValue
 					? $this->options->textDark
 					: $this->options->textLight;
-			}
-			else{
+			} else {
 				$this->moduleValues[$M_TYPE] = $v;
 			}
 
@@ -50,13 +51,14 @@ class QRString extends QROutputAbstract{
 	/**
 	 * @return string
 	 */
-	protected function text():string{
+	protected function text(): string
+	{
 		$str = [];
 
-		foreach($this->matrix->matrix() as $row){
+		foreach ($this->matrix->matrix() as $row) {
 			$r = [];
 
-			foreach($row as $M_TYPE){
+			foreach ($row as $M_TYPE) {
 				$r[] = $this->moduleValues[$M_TYPE];
 			}
 
@@ -69,7 +71,8 @@ class QRString extends QROutputAbstract{
 	/**
 	 * @return string
 	 */
-	protected function json():string{
+	protected function json(): string
+	{
 		return json_encode($this->matrix->matrix());
 	}
 

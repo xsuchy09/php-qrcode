@@ -4,32 +4,35 @@
  *
  * @filesource   QROptionsTest.php
  * @created      08.11.2018
- * @package      chillerlan\QRCodeTest
+ * @package      xsuchy09\QRCodeTest
  * @author       smiley <smiley@chillerlan.net>
  * @copyright    2018 smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest;
+namespace xsuchy09\QRCodeTest;
 
-use chillerlan\QRCode\{QRCode, QRCodeException, QROptions};
+use xsuchy09\QRCode\{QRCode, QRCodeException, QROptions};
 use PHPUnit\Framework\TestCase;
 
-class QROptionsTest extends TestCase{
+class QROptionsTest extends TestCase
+{
 
 	/**
-	 * @var \chillerlan\QRCode\QROptions
+	 * @var \xsuchy09\QRCode\QROptions
 	 */
 	protected $options;
 
-	public function testVersionClamp(){
+	public function testVersionClamp()
+	{
 		$this->assertSame(40, (new QROptions(['version' => 42]))->version);
 		$this->assertSame(1, (new QROptions(['version' => -42]))->version);
 		$this->assertSame(21, (new QROptions(['version' => 21]))->version);
 		$this->assertSame(QRCode::VERSION_AUTO, (new QROptions)->version); // QRCode::VERSION_AUTO = -1, default
 	}
 
-	public function testVersionMinMaxClamp(){
+	public function testVersionMinMaxClamp()
+	{
 		// normal clamp
 		$o = new QROptions(['versionMin' => 5, 'versionMax' => 10]);
 		$this->assertSame(5, $o->versionMin);
@@ -50,20 +53,23 @@ class QROptionsTest extends TestCase{
 		$this->assertSame(40, $o->versionMax);
 	}
 
-	public function testMaskPatternClamp(){
+	public function testMaskPatternClamp()
+	{
 		$this->assertSame(7, (new QROptions(['maskPattern' => 42]))->maskPattern);
 		$this->assertSame(0, (new QROptions(['maskPattern' => -42]))->maskPattern);
 		$this->assertSame(QRCode::MASK_PATTERN_AUTO, (new QROptions)->maskPattern); // QRCode::MASK_PATTERN_AUTO = -1, default
 	}
 
-	public function testInvalidEccLevelException(){
+	public function testInvalidEccLevelException()
+	{
 		$this->expectException(QRCodeException::class);
 		$this->expectExceptionMessage('Invalid error correct level: 42');
 
 		new QROptions(['eccLevel' => 42]);
 	}
 
-	public function testClampRGBValues(){
+	public function testClampRGBValues()
+	{
 		$o = new QROptions(['imageTransparencyBG' => [-1, 0, 999]]);
 
 		$this->assertSame(0, $o->imageTransparencyBG[0]);
@@ -71,7 +77,8 @@ class QROptionsTest extends TestCase{
 		$this->assertSame(255, $o->imageTransparencyBG[2]);
 	}
 
-	public function testInvalidRGBValueException(){
+	public function testInvalidRGBValueException()
+	{
 		$this->expectException(QRCodeException::class);
 		$this->expectExceptionMessage('Invalid RGB value.');
 

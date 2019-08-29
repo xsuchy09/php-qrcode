@@ -4,36 +4,40 @@
  *
  * @filesource   PolynomialTest.php
  * @created      09.02.2016
- * @package      chillerlan\QRCodeTest\Helpers
+ * @package      xsuchy09\QRCodeTest\Helpers
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2015 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Helpers;
+namespace xsuchy09\QRCodeTest\Helpers;
 
-use chillerlan\QRCode\Helpers\Polynomial;
-use chillerlan\QRCode\QRCodeException;
-use chillerlan\QRCodeTest\QRTestAbstract;
+use xsuchy09\QRCode\Helpers\Polynomial;
+use xsuchy09\QRCode\QRCodeException;
+use xsuchy09\QRCodeTest\QRTestAbstract;
 
-class PolynomialTest extends QRTestAbstract{
+class PolynomialTest extends QRTestAbstract
+{
 
 	/**
-	 * @var \chillerlan\QRCode\Helpers\Polynomial
+	 * @var \xsuchy09\QRCode\Helpers\Polynomial
 	 */
 	protected $polynomial;
 
-	protected function setUp():void{
+	protected function setUp(): void
+	{
 		$this->polynomial = new Polynomial;
 	}
 
-	public function testGexp(){
+	public function testGexp()
+	{
 		$this->assertSame(142, $this->polynomial->gexp(-1));
 		$this->assertSame(133, $this->polynomial->gexp(128));
-		$this->assertSame(2,   $this->polynomial->gexp(256));
+		$this->assertSame(2, $this->polynomial->gexp(256));
 	}
 
-	public function testGlogException(){
+	public function testGlogException()
+	{
 		$this->expectException(QRCodeException::class);
 		$this->expectExceptionMessage('log(0)');
 

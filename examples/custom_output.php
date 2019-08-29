@@ -8,18 +8,18 @@
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeExamples;
+namespace xsuchy09\QRCodeExamples;
 
-use chillerlan\QRCode\{QRCode, QROptions};
+use xsuchy09\QRCode\{QRCode, QROptions};
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $data = 'https://www.youtube.com/watch?v=DLzxrzFCyOs&t=43s';
 
 // invoke the QROutputInterface manually
 $options = new QROptions([
-	'version'      => 5,
-	'eccLevel'     => QRCode::ECC_L,
+	'version' => 5,
+	'eccLevel' => QRCode::ECC_L,
 ]);
 
 $qrOutputInterface = new MyCustomOutput($options, (new QRCode($options))->getMatrix($data));
@@ -29,9 +29,9 @@ var_dump($qrOutputInterface->dump());
 
 // or just
 $options = new QROptions([
-	'version'         => 5,
-	'eccLevel'        => QRCode::ECC_L,
-	'outputType'      => QRCode::OUTPUT_CUSTOM,
+	'version' => 5,
+	'eccLevel' => QRCode::ECC_L,
+	'outputType' => QRCode::OUTPUT_CUSTOM,
 	'outputInterface' => MyCustomOutput::class,
 ]);
 

@@ -4,57 +4,62 @@
  *
  * @filesource   QROutputTestAbstract.php
  * @created      24.12.2017
- * @package      chillerlan\QRCodeTest\Output
+ * @package      xsuchy09\QRCodeTest\Output
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2017 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCodeTest\Output;
+namespace xsuchy09\QRCodeTest\Output;
 
-use chillerlan\QRCode\QROptions;
-use chillerlan\QRCode\Data\Byte;
-use chillerlan\QRCode\Output\{QRCodeOutputException, QROutputInterface};
-use chillerlan\QRCodeTest\QRTestAbstract;
+use xsuchy09\QRCode\QROptions;
+use xsuchy09\QRCode\Data\Byte;
+use xsuchy09\QRCode\Output\{QRCodeOutputException, QROutputInterface};
+use xsuchy09\QRCodeTest\QRTestAbstract;
 
 /**
  */
-abstract class QROutputTestAbstract extends QRTestAbstract{
+abstract class QROutputTestAbstract extends QRTestAbstract
+{
 
-	const cachefile = __DIR__.'/output_test.';
+	const cachefile = __DIR__ . '/output_test.';
 
 	/**
-	 * @var \chillerlan\QRCode\Output\QROutputInterface
+	 * @var \xsuchy09\QRCode\Output\QROutputInterface
 	 */
 	protected $outputInterface;
 
 	/**
-	 * @var \chillerlan\QRCode\QROptions
+	 * @var \xsuchy09\QRCode\QROptions
 	 */
 	protected $options;
 
 	/**
-	 * @var \chillerlan\QRCode\Data\QRMatrix
+	 * @var \xsuchy09\QRCode\Data\QRMatrix
 	 */
 	protected $matrix;
 
-	protected function setUp():void{
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		$this->options = new QROptions;
 		$this->setOutputInterface();
 	}
 
-	protected function setOutputInterface(){
+	protected function setOutputInterface()
+	{
 		$this->outputInterface = $this->reflection->newInstanceArgs([$this->options, (new Byte($this->options, 'testdata'))->initMatrix(0)]);
 		return $this->outputInterface;
 	}
 
-	public function testInstance(){
+	public function testInstance()
+	{
 		$this->assertInstanceOf(QROutputInterface::class, $this->outputInterface);
 	}
 
-	public function testSaveException(){
+	public function testSaveException()
+	{
 		$this->expectException(QRCodeOutputException::class);
 		$this->expectExceptionMessage('Could not write data to cache file: /foo');
 

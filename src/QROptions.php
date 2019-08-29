@@ -4,13 +4,13 @@
  *
  * @filesource   QROptions.php
  * @created      08.12.2015
- * @package      chillerlan\QRCode
+ * @package      xsuchy09\QRCode
  * @author       Smiley <smiley@chillerlan.net>
  * @copyright    2015 Smiley
  * @license      MIT
  */
 
-namespace chillerlan\QRCode;
+namespace xsuchy09\QRCode;
 
 use chillerlan\Settings\SettingsContainerAbstract;
 
@@ -52,6 +52,7 @@ use chillerlan\Settings\SettingsContainerAbstract;
  *
  * @property array  $moduleValues
  */
-class QROptions extends SettingsContainerAbstract{
+class QROptions extends SettingsContainerAbstract
+{
 	use QROptionsTrait;
 }
